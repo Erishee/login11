@@ -1,10 +1,11 @@
 <?php
     session_start();
+    require '../Database/Database.php';
+    $db_connect = new Database('BDD_Projet');
+    $pdo = $db_connect->getPDO();
+    $_SESSION['auth']['id_Utilisateur'];//id_Utilisateur->attribut qui est fixe dans la table Utilisateur
+    $id=$_SESSION['auth']['id_Utilisateur'];
     if (!empty($_POST)) {
-
-        require '../Database/Database.php';
-        $db_connect = new Database('BDD_Projet');
-        $pdo = $db_connect->getPDO();
     
         $wrong_inputs = array();//message d'erreur
 
@@ -23,10 +24,11 @@
             $wrong_inputs['Pseudo']= "Ce pseudo est déja utilisé";
         }
         else{
-        $changer_pseudo=$pdo->prepare("UPDATE Utilisateur SET Pseudo=?");//
-            $changer_pseudo->execute([$_POST['Pseudo']]);
+        $changer_pseudo=$pdo->prepare("UPDATE Utilisateur WHERE id_Utilisateur=? SET Pseudo=?");//
+            $changer_pseudo->execute([$id,$_POST['Pseudo']]);
             if($changer_pseudo){
-                echo'success1';//message
+                echo"success1";//message
+                var_dump($changer_pseudo->execute([$_POST['Pseudo']]));
             }
         }
     }
