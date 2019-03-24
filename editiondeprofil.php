@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require 'Database.php';
+    require '../Database/Database.php';
     $db_connect = new Database('BDD_Projet');
     $pdo = $db_connect->getPDO();
     $_SESSION['auth']['id_Utilisateur'];//id_Utilisateur->attribut qui est fixe dans la table Utilisateur
@@ -18,7 +18,7 @@
         $name->execute([$id]);
         $nameuser=$name->fetch(PDO::FETCH_ASSOC);
         print_r($nameuser);
-        
+
     if(isset($_POST['submit'])){
             
             $Message=null;
@@ -153,25 +153,25 @@
             <div class=text>Pseudo:</div>
 
             <div class="form-group"> <input type="text" name="Pseudo" 
-            placeholder="Entrer un nouveau pseudo"  size='30px'>
+            placeholder="Entrer un nouveau pseudo"  >
             <label for="Pseudo"><div class=text1>*Enter un nouveau pseudo</div></label> </div>
 
             <div class=text>E-mail: </div>
 
             <div class="form-group"><input type="email" name="email" 
-            placeholder="Entrer un nouveau email" size='30px'>
+            placeholder="Entrer un nouveau email" >
             <label for="email"><div class=text1>*Enter une nouvelle adresse mail</div></label> </div>
 
             <div class=text>Mot de passe:</div>
 
             <div class="form-group"> <input type="password" name="password" 
-            placeholder="Entrer un nouveau mot de passe" size='30px'>
+            placeholder="Entrer un nouveau mot de passe" >
             <label for="Mot_de_passe"><div class=text1>*Enter un nouveau mot de passe</div></label> </div>
 
             <div class=text>Veification de mot de passe:</div>
 
             <div class="form-group"> <input type="password" name="psw_confirm" 
-            placeholder="Veification de mot de passe" size='30px'>
+            placeholder="Veification de mot de passe" >
             <label for="Mot_de_passe"><div class=text1>*Veification de mot de passe</div></label> </div>
 
             <button class="button" type="submit" name="submit">modifier</button>
@@ -196,30 +196,26 @@
         border-color: #cae6d2;
         border-radius: 5px;
         height: 35px;
+        width:400px;
         box-shadow: 0px 2px 2px #96bce2;
 }
     .text{
-            text-align: left;
-            margin-top: 40px;
-            margin-left: 80px;
-            font-family: 'MS Sans Serif', Geneva, sans-serif;
-            font-size: 20px;
-        }
-    .input{
-        border-radius: 5px;
-        height: 35px;
-        border-color: #6498da96;
+        text-align: left;
+        margin-top: 40px;
+        margin-left: 40px;
+        font-family: 'MS Sans Serif', Geneva, sans-serif;
+        font-size: 20px;
     }
     .text1{
         float: left;
-        margin-left: 80px;
+        margin-top: 5px;
+        margin-left: 40px;
         font-family: 'MS Sans Serif', Geneva, sans-serif;
-        font-size: 12px;
+        font-size: 15px;
         color: #f50000c2;
     }
 
     .form-group { 
-        margin-right: 85px;
         position: relative;
         padding-top: 1.5rem;
         float: right;
