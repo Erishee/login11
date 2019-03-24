@@ -1,31 +1,26 @@
 <?php
     session_start();
-    require '../Database/Database.php';
+    require 'Database.php';
     $db_connect = new Database('BDD_Projet');
     $pdo = $db_connect->getPDO();
     $_SESSION['auth']['id_Utilisateur'];//id_Utilisateur->attribut qui est fixe dans la table Utilisateur
     $id=$_SESSION['auth']['id_Utilisateur'];
-    $n=$_SESSION['auth']['Pseudo'];
-    $m=$_SESSION['auth']['Email'];    
+    //var_dump($_SESSION['auth']);
     
-    if(!empty($_SESSION)){
         $getemail ="SELECT Email FROM Utilisateur WHERE id_Utilisateur=?";
         $mail=$pdo->prepare($getemail);
         $mail->execute([$id]);
-        $mailuser=$mail->fetch();
-        $_SESSION['auth']['Email'] = $mailuser->Email;
+        $mailuser=$mail->fetch(PDO::FETCH_ASSOC);
+        print_r($mailuser);
 
         $getname ="SELECT Pseudo FROM Utilisateur WHERE id_Utilisateur=?";
         $name=$pdo->prepare("$getname");
         $name->execute([$id]);
-        $nameuser=$name->fetch();
-        $_SESSION['auth']['Pseudo'] = $name->Email;
-    }
+        $nameuser=$name->fetch(PDO::FETCH_ASSOC);
+        print_r($nameuser);
+        
     if(isset($_POST['submit'])){
             
-            $Message1=null;
-            $Message2=null;//message d'erreur
-            $Message3=null;
             $Message=null;
 
             //changer pseudo
@@ -144,78 +139,117 @@
         </div>
     </nav>
 </header>
-<div class="space"></div>
+<div></div>
+
+
 <?php
-echo ("Votre Pseudo:$n</br>");
-echo("Votre Email:$m");
+//echo ("Votre Pseudo:$n</br>");
+//echo("Votre Email:$m");
 ?></p>
 
+<div class=main-content>
+        <form action="editiondeprofil.php" method="post">
+    <div class=form>
+            <div class=text>Pseudo:</div>
 
-<form action="editiondeprofil.php" method="post">
+            <div class="form-group"> <input type="text" name="Pseudo" 
+            placeholder="Entrer un nouveau pseudo"  size='30px'>
+            <label for="Pseudo"><div class=text1>*Enter un nouveau pseudo</div></label> </div>
 
-<div class=text>Pseudo:</div>
+            <div class=text>E-mail: </div>
 
-<div class="form-group"> <input type="text" name="Pseudo" 
-placeholder="Entrer un nouveau pseudo"  size='30px'>
-<label for="Pseudo"><div class=text1>*Enter un nouveau pseudo</div></label> </div></p>
+            <div class="form-group"><input type="email" name="email" 
+            placeholder="Entrer un nouveau email" size='30px'>
+            <label for="email"><div class=text1>*Enter une nouvelle adresse mail</div></label> </div>
 
-<div class=text>E-mail: </div>
+            <div class=text>Mot de passe:</div>
 
-<div class="form-group"> <input type="email" name="email" 
-placeholder="Entrer un nouveau email" size='30px'>
-<label for="email"><div class=text1>*Enter un nouveau email</div></label> </div></p>
+            <div class="form-group"> <input type="password" name="password" 
+            placeholder="Entrer un nouveau mot de passe" size='30px'>
+            <label for="Mot_de_passe"><div class=text1>*Enter un nouveau mot de passe</div></label> </div>
 
-<div class=text>Mot de passe:</div>
+            <div class=text>Veification de mot de passe:</div>
 
-<div class="form-group"> <input type="password" name="password" 
-placeholder="Entrer un nouveau mot de passe" size='30px'>
-<label for="Mot_de_passe"><div class=text1>*Enter un nouveau mot de passe</div></label> </div></p>
+            <div class="form-group"> <input type="password" name="psw_confirm" 
+            placeholder="Veification de mot de passe" size='30px'>
+            <label for="Mot_de_passe"><div class=text1>*Veification de mot de passe</div></label> </div>
 
-<div class=text>Veification de mot de passe:</div>
-
-<div class="form-group"> <input type="password" name="psw_confirm" 
-placeholder="Veification de mot de passe" size='30px'>
-<label for="Mot_de_passe"><div class=text1>*Veification de mot de passe</div></label> </div></p>
-
-    <div class="button">
-    <input type="submit" name="submit" value="modifier">
+            <button class="button" type="submit" name="submit">modifier</button>
     </div>
-
+</div>
     <style type="text/css">
-    .text{
-        text-align:left;
-        margin-left: 515px;
-        font-family: 'MS Sans Serif', Geneva, sans-serif;
-        font-size:25px;
-
+    .main-content{
+        background-color: #80add4bf;
+        border: 1px solid #ffffff73;
+        height: 800px;
+        margin: auto;
+        margin-bottom: 50px;
     }
-
+    .form{
+        width: 480px;
+        height: 600px;
+        background-color: white;
+        border-radius: 20px;
+        margin-left: 400px;
+    }
+    input{
+        border-color: #cae6d2;
+        border-radius: 5px;
+        height: 35px;
+        box-shadow: 0px 2px 2px #96bce2;
+}
+    .text{
+            text-align: left;
+            margin-top: 40px;
+            margin-left: 80px;
+            font-family: 'MS Sans Serif', Geneva, sans-serif;
+            font-size: 20px;
+        }
+    .input{
+        border-radius: 5px;
+        height: 35px;
+        border-color: #6498da96;
+    }
     .text1{
-                font-family: 'MS Sans Serif', Geneva, sans-serif;
-                font-size:15px;
-                color:red;
+        float: left;
+        margin-left: 80px;
+        font-family: 'MS Sans Serif', Geneva, sans-serif;
+        font-size: 12px;
+        color: #f50000c2;
     }
 
     .form-group { 
-            position: relative; padding-top: 1.5rem;text-align: center; 
-            background-color: #3CBC8D;
-            color: white;
+        margin-right: 85px;
+        position: relative;
+        padding-top: 1.5rem;
+        float: right;
+        text-align: center;
     }
-    label { text-align: center; position: absolute; top: 25px; 
-    font-size: var(--font-size-small); 
-    opacity: 1; transform: translateY(0); 
-    transition: all 0.2s ease-out; text-align: center;}
+    label { 
+        position: relative;
+        float: left;
+        font-size: var(--font-size-small);
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.2s ease-out;
+            }
     input:placeholder-shown + label { 
-    opacity: 0; transform: translateY(1rem); text-align: center;}
+            opacity: 0; 
+            transform: translateY(1rem);
+            }
     .button {
-        background-color: #e7e7e7; color: black;
+        margin-left: 170px;
+        font-family: 'MS Sans Serif', Geneva, sans-serif;
+        margin-top: 10px;
+        background-color: #e7e7e7;
+        color: black;
         padding: 15px 32px;
         text-align: center;
         display: inline-block;
         font-size: 20px;
         border-radius: 8px;
         border: 2px solid #4CAF50;
-        -webkit-transition-duration: 0.4s; /* Safari */
+        -webkit-transition-duration: 0.4s;
         transition-duration: 0.4s;
     }
     .button:hover {
